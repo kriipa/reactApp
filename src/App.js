@@ -1,14 +1,23 @@
 // import logo from './logo.svg';
 // import './App.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import Feedback from "./compotents/feedback";
+import axios from 'axios';
 
+function App() {
 
-function App(props) {
-
-  const [notes, setNotes] = useState(props.notes)
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] =  useState(true)
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/notes')
+    .then(response => {
+      console.log(response.data)
+      setNotes(response.data)
+    })
+    .catch(err => console.log(err))
+  }, [])
 
   const notesToShow = showAll 
   ? notes
