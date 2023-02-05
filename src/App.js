@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // import Feedback from "./compotents/feedback";
 // import axios from 'axios';
 // import Note from './components/note';
@@ -110,90 +110,35 @@ import { useState, useEffect } from "react";
 //   );
 // }
 
-import { Form } from "reactstrap";
-import { FormGroup } from "reactstrap";
-import { Label } from "reactstrap";
-import { Col } from "reactstrap";
-import { Input } from "reactstrap";
-import { Button } from "reactstrap";
-import userService from './services/userService';
-
+import Register from './components/register';
+import Login from './components/login';
+import Book from './components/Book';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [books, setBooks] = useState([])
 
-  const handleRegister = (event) => {
-    event.preventDefault()
-    console.log(username, password)
-    userService.registerUser(username, password)
-    .then(response => {
-      console.log(response.data)
-    }).catch(err => console.log(err))
+  const padding = {
+    padding: 5
   }
-
   return (
-    <div >
-      <h2> furniturezoid </h2>
-
-      <Form onSubmit={handleRegister}> 
-        <FormGroup row >
-          <Label for="username" sm={2}>
-            Username
-          </Label>
-          <Col sm={10}>
-            <Input
-              id="usersname"
-              name="username"
-              placeholder=" Enter Username"
-              type="text"
-              value = {username}
-              onChange = {(event) => setUsername(event.target.value)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="examplePassword" sm={2}>
-            Password
-          </Label>
-          <Col sm={10}>
-            <Input
-              id="password"
-              name="password"
-              placeholder="Enter A Strong Password"
-              type="password"
-              value={password}
-              onChange = {(event) => setPassword(event.target.value)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="selectGender" sm={2} >
-            Select Gender
-          </Label>
-          <Col sm={10}>
-            <Input
-              id="selectGender"
-              name="selectGender"
-              type="select"
-            >
-              <option>
-                male
-              </option>
-              <option>
-                female
-              </option>
-              <option>
-                other
-              </option>
-              
-            </Input>
-          </Col>
-        </FormGroup>
-        <Button color="primary">
-          Register
-        </Button>
-      </Form>
+    <div className='container'>
+      <h2> Book review app </h2>
+      
+      <Router>
+        <div>
+          <Link style={padding} to={'/'}> home </Link>
+          <Link style={padding} to ={'/login'}> login </Link>
+          <Link style={padding} to ={'/register'}> register</Link>
+          <Link style={padding} to ={'/books'}> books </Link>
+        </div>
+      
+        <Routes>
+          <Route path='/register' element={<Register/> }/>
+          <Route path='/login' element={<Login /> }/>
+          <Route path='/books' element={<Book books={books} setBooks={setBooks}/> }/>
+        </Routes>
+      </Router>
     </div>
   );
 }

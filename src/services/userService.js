@@ -7,4 +7,8 @@ const registerUser = (username, password) => {
     {username, password})
 }
 
-export default {registerUser}
+const loginUser = (Credentials) => {
+    return axios.post(`${baseUrl}/login`, Credentials)
+}
+
+export default {registerUser, loginUser}
